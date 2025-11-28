@@ -1,0 +1,241 @@
+📚 FACULTY DASHBOARD ARCHITECTURE & DOCUMENTATION
+================================================
+
+PROJECT STRUCTURE:
+==================
+
+/app/dashboard/faculty/
+  └── page.tsx                    # Main faculty dashboard page
+
+/components/faculty/
+  ├── faculty-quick-actions.tsx   # Create Announcement, Event, Manage Groups buttons
+  ├── faculty-announcements.tsx   # Faculty announcements feed with edit/delete
+  ├── faculty-events.tsx          # Faculty-created events section
+  ├── faculty-courses.tsx         # List of courses taught by faculty
+  ├── faculty-groups.tsx          # Course discussion groups/forums
+  ├── faculty-bookings.tsx        # Lab booking approval section (if lab in-charge)
+  └── faculty-stats.tsx           # Quick statistics cards
+
+
+COMPONENT DESCRIPTIONS:
+=======================
+
+1. FACULTY QUICK ACTIONS (faculty-quick-actions.tsx)
+   - 3 main action buttons displayed prominently
+   - Create Announcement: Navigate to announcement creation page
+   - Create Event: Navigate to event creation page
+   - Manage Groups: View and manage course discussion groups
+   - Responsive grid (1 column mobile, 3 columns desktop)
+   - Icons with gradient backgrounds for visual appeal
+
+2. FACULTY ANNOUNCEMENTS (faculty-announcements.tsx)
+   - Shows announcements created by the faculty member
+   - Each announcement card displays:
+     * Title
+     * Short description
+     * Audience (e.g., "CS101 - Section A", "All Classes")
+     * Posted time (e.g., "2h ago")
+     * Edit button (pencil icon)
+     * Delete button (trash icon)
+   - "View All" link to full announcements page
+   - Responsive card layout
+
+3. FACULTY EVENTS (faculty-events.tsx)
+   - Displays upcoming events created by the faculty
+   - Each event shows:
+     * Event title
+     * Date & time (with calendar icon)
+     * Location (with map pin icon)
+     * RSVP count (number of students who confirmed)
+     * Edit button
+     * Delete button
+   - "View All" link to full events calendar
+
+4. FACULTY COURSES (faculty-courses.tsx)
+   - Lists all courses taught by the faculty member
+   - Each course card includes:
+     * Course name/code
+     * "Open Forum" button - opens course discussion board
+     * "Announce" button - quick link to create announcement for that course
+   - Responsive grid layout (1-2 columns)
+   - Shows "No courses assigned" if empty
+
+5. FACULTY GROUPS & FORUMS (faculty-groups.tsx)
+   - Shows course discussion groups/forums
+   - Each group card displays:
+     * Group name (e.g., "CS101 - Discussion Board")
+     * Associated course name
+     * Number of students in the group
+     * Unread messages count
+     * "Open Group" button to enter discussion
+   - Faculty can view posts, reply to student questions
+   - Faculty can pin important posts and delete inappropriate content
+   - "View All" link to full groups page
+
+6. FACULTY BOOKINGS APPROVAL (faculty-bookings.tsx)
+   - ONLY visible if the faculty member is a Lab In-Charge
+   - Shows pending booking requests from students
+   - Each request displays:
+     * Student name with avatar
+     * Resource name (lab equipment or lab room)
+     * Requested date & time
+     * Purpose of booking
+     * Approve button (green)
+     * Reject button (red)
+   - Status indicator showing number of pending requests
+   - Hides automatically if faculty is not lab in-charge
+
+7. FACULTY STATS (faculty-stats.tsx)
+   - 4 quick stat cards showing:
+     * Total announcements posted
+     * Total events created
+     * Courses managed (count)
+     * Pending bookings (if lab in-charge)
+   - Each card has icon, label, and value
+   - Color-coded with gradient backgrounds
+   - Responsive (1 column mobile, 2 columns tablet, 4 columns desktop)
+
+
+PAGE LAYOUT STRUCTURE:
+======================
+
+┌─────────────────────────────────────────────────────────┐
+│                    HEADER (DashboardHeader)             │
+│          Name | Notifications | Dark Mode | Avatar     │
+├─────────────────────────────────────────────────────────┤
+│  SIDEBAR  │                                             │
+│           │  ┌────────────────────────────────────────┐ │
+│           │  │   Welcome Banner (Desktop only)       │ │
+│           │  │   Department • Designation • Courses  │ │
+│           │  └────────────────────────────────────────┘ │
+│           │                                             │
+│           │  ┌───────────────────────────────────────┐  │
+│           │  │  QUICK STATS (4 cards in responsive) │  │
+│           │  │  Announcements|Events|Courses|Books  │  │
+│           │  └───────────────────────────────────────┘  │
+│           │                                             │
+│           │  ┌───────────────────────────────────────┐  │
+│           │  │   QUICK ACTIONS (3 buttons)          │  │
+│           │  │ Create|Create|Manage Grid Layout    │  │
+│           │  └───────────────────────────────────────┘  │
+│           │                                             │
+│           │  ┌──────────────────┬────────────────────┐  │
+│           │  │  LEFT (2/3):     │  RIGHT (1/3):     │  │
+│           │  │                  │                    │  │
+│           │  │ • Announcements  │  • My Courses     │  │
+│           │  │ • Events         │  • Bookings       │  │
+│           │  │ • Groups/Forums  │   (if in-charge)  │  │
+│           │  │                  │                    │  │
+│           │  └──────────────────┴────────────────────┘  │
+│           │                                             │
+└─────────────────────────────────────────────────────────┘
+
+
+RESPONSIVE DESIGN:
+==================
+
+Mobile (< 768px):
+  - Sidebar collapses into hamburger menu
+  - All sections stack vertically (1 column)
+  - Quick actions: 1 column grid
+  - Stats: 1-2 columns
+  - Buttons take full width
+  - Welcome banner hidden (space saving)
+  - Optimized padding and spacing
+
+Tablet (768px - 1024px):
+  - Sidebar visible as sidebar
+  - Main content in 2-column layout where applicable
+  - Quick actions: 2-3 columns
+  - Stats: 2 columns
+  - Reduced font sizes for fit
+
+Desktop (> 1024px):
+  - Full 3-column layout (left + right sidebar)
+  - Welcome banner visible
+  - Quick actions: 3 columns
+  - Stats: 4 columns
+  - Full padding and spacing
+  - Optimized for large screens
+
+
+KEY FEATURES:
+=============
+
+✓ Fully Responsive Design (Mobile-First)
+✓ Separate Component Files (Easy to maintain & update)
+✓ Edit & Delete Functionality for Announcements & Events
+✓ Lab In-Charge Conditional Rendering for Bookings
+✓ Quick Stats for Performance Overview
+✓ Dark Mode Support (uses theme from context)
+✓ Loading State Handling
+✓ Role-Based Access Control (faculty-only)
+✓ Status Validation (only approved faculty see dashboard)
+✓ Consistent Styling with Student Dashboard
+
+
+FUTURE EXPANSION IDEAS:
+=======================
+
+1. Add search & filter to announcements
+2. Add draft announcements functionality
+3. Add event attendee analytics
+4. Add real-time notification badges
+5. Add faculty profile editing
+6. Add student performance insights
+7. Add automated attendance tracking
+8. Add assignment submission tracking
+9. Add grade management interface
+10. Add calendar view with drag-drop events
+
+
+DATA FLOW:
+==========
+
+1. User Signs Up → Role selected as "Faculty"
+2. Faculty Setup Page → Fills department, designation, courses, etc.
+3. Admin Approves → Status changed to "approved"
+4. Faculty Signs In → Data loaded from localStorage
+5. Role Check → Redirected to /dashboard/faculty
+6. Dashboard Page → Loads all components
+7. User can now:
+   - Create announcements
+   - Schedule events
+   - Manage course groups
+   - Approve lab bookings (if applicable)
+   - View analytics
+
+
+STYLING & COLORS:
+=================
+
+- Primary Color: Used for buttons, highlights, and active states
+- Accent Color: Used for secondary actions
+- Card Background: bg-card with border-border
+- Text: text-foreground (white) and text-muted-foreground (gray)
+- Icons: Color-coded per section (Blue, Purple, Emerald, Orange)
+- Hover States: All interactive elements have transitions
+- Dark Mode: Fully supported via theme context
+
+
+INTEGRATION POINTS:
+===================
+
+1. Authentication: Uses localStorage for user data
+2. Routing: Next.js App Router for page navigation
+3. State Management: useState for local component state
+4. Theme: Integrated with @/app/providers theme context
+5. API: Ready to integrate with backend API routes
+6. Icons: Using Lucide React icons library
+
+
+MAINTENANCE NOTES:
+==================
+
+- Each component is self-contained and can be updated independently
+- All components are in /components/faculty/ for easy organization
+- Main page uses modular imports, making it easy to add/remove sections
+- Consistent naming convention: faculty-{feature-name}.tsx
+- All components are "use client" for interactivity
+- Error handling and loading states included
+- Fully typed with TypeScript interfaces

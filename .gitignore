@@ -1,0 +1,4 @@
+# Data files
+.data/
+.data/profiles.json
+.data/notifications.json
